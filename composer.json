@@ -1,0 +1,28 @@
+{
+    "name": "nofw/emperror",
+    "description": "The Emperor handles all errors personally",
+    "license": "MIT",
+    "keywords": ["error", "handler"],
+    "homepage": "https://nofw.io",
+    "authors": [
+        {
+            "name": "Márk Sági-Kazár",
+            "email": "mark.sagikazar@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nofw\\Emperror\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
