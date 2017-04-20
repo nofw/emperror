@@ -14,9 +14,18 @@
         "php": "^7.1",
         "nofw/error": "0.0.2"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "php-mock/php-mock-phpunit": "^2.0"
+    },
     "autoload": {
         "psr-4": {
             "Nofw\\Emperror\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nofw\\Emperror\\Tests\\": "src/"
         }
     },
     "extra": {
