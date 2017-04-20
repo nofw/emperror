@@ -1,6 +1,6 @@
 {
     "name": "nofw/emperror",
-    "description": "The Emperor handles all errors personally",
+    "description": "The Emperor takes care of all errors personally",
     "license": "MIT",
     "keywords": ["error", "handler"],
     "homepage": "https://nofw.io",

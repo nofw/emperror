@@ -6,7 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/nofw/emperror.svg?style=flat-square)](https://scrutinizer-ci.com/g/nofw/emperror)
 [![Total Downloads](https://img.shields.io/packagist/dt/nofw/emperror.svg?style=flat-square)](https://packagist.org/packages/nofw/emperror)
 
-**The Emperor handles all errors personally.**
+**The Emperor takes care of all errors personally.**
 
 Emperror is an error handler implementation based on [nofw/error](https://github.com/nofw/error).
 
