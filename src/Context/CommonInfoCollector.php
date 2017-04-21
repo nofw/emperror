@@ -19,7 +19,7 @@ final class CommonInfoCollector implements Processor
         $common = [
             Context::APP => [
                 'os' => php_uname(),
-                'language' => 'PHP ' . phpversion(),
+                'language' => 'PHP '.phpversion(),
             ],
         ];
 
