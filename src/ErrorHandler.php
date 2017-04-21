@@ -12,6 +12,15 @@ use Nofw\Emperror\Context\Processor;
 final class ErrorHandler implements \Nofw\Error\ErrorHandler
 {
     private $context = [];
+
+    /**
+     * @var ErrorHandler[]
+     */
+    private $handlers = [];
+
+    /**
+     * @var Processor[]
+     */
     private $processors = [];
 
     public function __construct(array $context = [])
@@ -30,6 +39,65 @@ final class ErrorHandler implements \Nofw\Error\ErrorHandler
         foreach ($this->processors as $processor) {
             $context = $processor->process($t, $context);
         }
+
+        // Handle the error
+        foreach ($this->handlers as $handler) {
+            $handler->handle($t, $context);
+        }
+    }
+
+    /**
+     * Pushes a handler on to the stack.
+     *
+     * @param \Nofw\Error\ErrorHandler $handler
+     *
+     * @return ErrorHandler
+     */
+    public function pushHandler(\Nofw\Error\ErrorHandler $handler): self
+    {
+        array_unshift($this->handlers, $handler);
+
+        return $this;
+    }
+
+    /**
+     * Pops a handler from the stack.
+     *
+     * @return \Nofw\Error\ErrorHandler
+     *
+     * @throws \LogicException If the handler stack is empty
+     */
+    public function popHandler(): \Nofw\Error\ErrorHandler
+    {
+        if (empty($this->handlers)) {
+            throw new \LogicException('Tried to pop from an empty handler stack.');
+        }
+
+        return array_shift($this->handlers);
+    }
+
+    /**
+     * @return ErrorHandler[]
+     */
+    public function getHandlers(): array
+    {
+        return $this->handlers;
+    }
+
+    /**
+     * @param ErrorHandler[] $handlers
+     *
+     * @return ErrorHandler
+     */
+    public function setHandlers(array $handlers): self
+    {
+        $this->handlers = [];
+
+        foreach ($handlers as $handler) {
+            $this->pushHandler($handler);
+        }
+
+        return $this;
     }
 
     /**
@@ -63,7 +131,7 @@ final class ErrorHandler implements \Nofw\Error\ErrorHandler
     }
 
     /**
-     * @return array
+     * @return Processor[]
      */
     public function getProcessors(): array
     {
@@ -71,7 +139,7 @@ final class ErrorHandler implements \Nofw\Error\ErrorHandler
     }
 
     /**
-     * @param array $processors
+     * @param Processor[] $processors
      *
      * @return ErrorHandler
      */
