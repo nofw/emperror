@@ -2,25 +2,25 @@
 
 namespace Nofw\Emperror\Tests\Context;
 
-use Nofw\Emperror\Context\PhpSessionCollector;
+use Nofw\Emperror\Context\EnvironmentCollector;
 use Nofw\Error\Context;
 use PHPUnit\Framework\TestCase;
 
-final class PhpSessionCollectorTest extends TestCase
+final class EnvironmentCollectorTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_collects_session_info()
+    public function it_collects_environment()
     {
-        $_SESSION = [
+        $_SERVER = [
             'key' => 'value',
         ];
 
-        $collector = new PhpSessionCollector();
+        $collector = new EnvironmentCollector();
 
         $expected = [
-            Context::SESSION => [
+            Context::ENVIRONMENT => [
                 'key' => 'value',
             ],
         ];
@@ -32,37 +32,23 @@ final class PhpSessionCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_collect_session_info_if_session_is_empty()
-    {
-        $_SESSION = [];
-
-        $collector = new PhpSessionCollector();
-
-        $actual = $collector->process(new \Exception(), []);
-
-        $this->assertArrayNotHasKey(Context::SESSION, $actual);
-    }
-
-    /**
-     * @test
-     */
     public function it_does_not_overwrite_already_existing_values()
     {
-        $_SESSION = [
+        $_SERVER = [
             'key' => 'value',
             'key2' => 'value2',
         ];
 
-        $collector = new PhpSessionCollector();
+        $collector = new EnvironmentCollector();
 
         $context = [
-            Context::SESSION => [
+            Context::ENVIRONMENT => [
                 'key' => 'value',
             ],
         ];
 
         $expected = [
-            Context::SESSION => [
+            Context::ENVIRONMENT => [
                 'key' => 'value',
                 'key2' => 'value2',
             ],
