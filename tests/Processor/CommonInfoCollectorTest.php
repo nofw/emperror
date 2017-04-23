@@ -13,13 +13,21 @@ final class CommonInfoCollectorTest extends TestCase
     use PHPMock;
 
     /**
+     * @var CommonInfoCollector
+     */
+    private $collector;
+
+    public function setUp()
+    {
+        $this->collector = new CommonInfoCollector();
+    }
+
+    /**
      * @test
      */
     public function it_is_a_processor()
     {
-        $collector = new CommonInfoCollector();
-
-        $this->assertInstanceOf(Processor::class, $collector);
+        $this->assertInstanceOf(Processor::class, $this->collector);
     }
 
     /**
@@ -38,8 +46,6 @@ final class CommonInfoCollectorTest extends TestCase
         $phpversion = $this->getFunctionMock($namespace, 'phpversion');
         $phpversion->expects($this->once())->willReturn('7.1.0');
 
-        $collector = new CommonInfoCollector();
-
         $expected = [
             Context::APP => [
                 'os' => 'myos',
@@ -47,7 +53,7 @@ final class CommonInfoCollectorTest extends TestCase
                 'hostname' => 'myhost',
             ],
         ];
-        $actual = $collector->process(new \Exception(), []);
+        $actual = $this->collector->process(new \Exception(), []);
 
         $this->assertEquals($expected, $actual);
     }
@@ -62,9 +68,7 @@ final class CommonInfoCollectorTest extends TestCase
         $hostname = $this->getFunctionMock($namespace, 'gethostname');
         $hostname->expects($this->once())->willReturn(false);
 
-        $collector = new CommonInfoCollector();
-
-        $context = $collector->process(new \Exception(), []);
+        $context = $this->collector->process(new \Exception(), []);
 
         $this->assertArrayNotHasKey('hostname', $context);
     }
@@ -74,9 +78,6 @@ final class CommonInfoCollectorTest extends TestCase
      */
     public function it_does_not_overwrite_already_existing_values()
     {
-
-        $collector = new CommonInfoCollector();
-
         $expected = [
             Context::APP => [
                 'os' => 'myos',
@@ -84,7 +85,7 @@ final class CommonInfoCollectorTest extends TestCase
                 'hostname' => 'myhost',
             ],
         ];
-        $actual = $collector->process(new \Exception(), $expected);
+        $actual = $this->collector->process(new \Exception(), $expected);
 
         $this->assertEquals($expected, $actual);
     }

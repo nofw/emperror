@@ -10,6 +10,24 @@ use Prophecy\Prophecy\ObjectProphecy;
 final class ErrorHandlerTest extends TestCase
 {
     /**
+     * @var ErrorHandler
+     */
+    private $errorHandler;
+
+    public function setUp()
+    {
+        $this->errorHandler = new ErrorHandler();
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_an_error_handler()
+    {
+        $this->assertInstanceOf(\Nofw\Error\ErrorHandler::class, $this->errorHandler);
+    }
+
+    /**
      * @test
      */
     public function it_has_a_handler_stack()
@@ -18,11 +36,9 @@ final class ErrorHandlerTest extends TestCase
         $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler = $handler->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushHandler($handler);
 
-        $errorHandler->pushHandler($handler);
-
-        $this->assertSame($handler, $errorHandler->popHandler());
+        $this->assertSame($handler, $this->errorHandler->popHandler());
     }
 
     /**
@@ -38,14 +54,12 @@ final class ErrorHandlerTest extends TestCase
         $handler2 = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler2 = $handler2->reveal();
 
-        $errorHandler = new ErrorHandler();
-
-        $errorHandler
+        $this->errorHandler
             ->pushHandler($handler1)
             ->pushHandler($handler2)
         ;
 
-        $this->assertSame([$handler2, $handler1], $errorHandler->getHandlers());
+        $this->assertSame([$handler2, $handler1], $this->errorHandler->getHandlers());
     }
 
     /**
@@ -54,9 +68,7 @@ final class ErrorHandlerTest extends TestCase
      */
     public function it_cannot_pop_from_an_empty_handler_stack()
     {
-        $errorHandler = new ErrorHandler();
-
-        $errorHandler->popHandler();
+        $this->errorHandler->popHandler();
     }
 
     /**
@@ -68,11 +80,9 @@ final class ErrorHandlerTest extends TestCase
         $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler = $handler->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushHandler($handler);
 
-        $errorHandler->pushHandler($handler);
-
-        $this->assertSame([$handler], $errorHandler->getHandlers());
+        $this->assertSame([$handler], $this->errorHandler->getHandlers());
     }
 
     /**
@@ -88,13 +98,11 @@ final class ErrorHandlerTest extends TestCase
         $handler2 = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler2 = $handler2->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushHandler($handler1);
 
-        $errorHandler->pushHandler($handler1);
+        $this->errorHandler->setHandlers([$handler2]);
 
-        $errorHandler->setHandlers([$handler2]);
-
-        $this->assertSame([$handler2], $errorHandler->getHandlers());
+        $this->assertSame([$handler2], $this->errorHandler->getHandlers());
     }
 
     /**
@@ -106,9 +114,7 @@ final class ErrorHandlerTest extends TestCase
         $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler = $handler->reveal();
 
-        $errorHandler = new ErrorHandler();
-
-        $this->assertSame($errorHandler, $errorHandler->pushHandler($handler));
+        $this->assertSame($this->errorHandler, $this->errorHandler->pushHandler($handler));
     }
 
     /**
@@ -120,11 +126,9 @@ final class ErrorHandlerTest extends TestCase
         $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
         $handler = $handler->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushHandler($handler);
 
-        $errorHandler->pushHandler($handler);
-
-        $this->assertSame($errorHandler, $errorHandler->setHandlers([$handler]));
+        $this->assertSame($this->errorHandler, $this->errorHandler->setHandlers([$handler]));
     }
 
     /**
@@ -136,11 +140,9 @@ final class ErrorHandlerTest extends TestCase
         $processor = $this->prophesize(Processor::class);
         $processor = $processor->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushProcessor($processor);
 
-        $errorHandler->pushProcessor($processor);
-
-        $this->assertSame($processor, $errorHandler->popProcessor());
+        $this->assertSame($processor, $this->errorHandler->popProcessor());
     }
 
     /**
@@ -156,14 +158,12 @@ final class ErrorHandlerTest extends TestCase
         $processor2 = $this->prophesize(Processor::class);
         $processor2 = $processor2->reveal();
 
-        $errorHandler = new ErrorHandler();
-
-        $errorHandler
+        $this->errorHandler
             ->pushProcessor($processor1)
             ->pushProcessor($processor2)
         ;
 
-        $this->assertSame([$processor2, $processor1], $errorHandler->getProcessors());
+        $this->assertSame([$processor2, $processor1], $this->errorHandler->getProcessors());
     }
 
     /**
@@ -172,9 +172,7 @@ final class ErrorHandlerTest extends TestCase
      */
     public function it_cannot_pop_from_an_empty_processor_stack()
     {
-        $errorHandler = new ErrorHandler();
-
-        $errorHandler->popProcessor();
+        $this->errorHandler->popProcessor();
     }
 
     /**
@@ -186,11 +184,9 @@ final class ErrorHandlerTest extends TestCase
         $processor = $this->prophesize(Processor::class);
         $processor = $processor->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushProcessor($processor);
 
-        $errorHandler->pushProcessor($processor);
-
-        $this->assertSame([$processor], $errorHandler->getProcessors());
+        $this->assertSame([$processor], $this->errorHandler->getProcessors());
     }
 
     /**
@@ -206,13 +202,11 @@ final class ErrorHandlerTest extends TestCase
         $processor2 = $this->prophesize(Processor::class);
         $processor2 = $processor2->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushProcessor($processor1);
 
-        $errorHandler->pushProcessor($processor1);
+        $this->errorHandler->setProcessors([$processor2]);
 
-        $errorHandler->setProcessors([$processor2]);
-
-        $this->assertSame([$processor2], $errorHandler->getProcessors());
+        $this->assertSame([$processor2], $this->errorHandler->getProcessors());
     }
 
     /**
@@ -224,9 +218,7 @@ final class ErrorHandlerTest extends TestCase
         $processor = $this->prophesize(Processor::class);
         $processor = $processor->reveal();
 
-        $errorHandler = new ErrorHandler();
-
-        $this->assertSame($errorHandler, $errorHandler->pushProcessor($processor));
+        $this->assertSame($this->errorHandler, $this->errorHandler->pushProcessor($processor));
     }
 
     /**
@@ -238,10 +230,8 @@ final class ErrorHandlerTest extends TestCase
         $processor = $this->prophesize(Processor::class);
         $processor = $processor->reveal();
 
-        $errorHandler = new ErrorHandler();
+        $this->errorHandler->pushProcessor($processor);
 
-        $errorHandler->pushProcessor($processor);
-
-        $this->assertSame($errorHandler, $errorHandler->setProcessors([$processor]));
+        $this->assertSame($this->errorHandler, $this->errorHandler->setProcessors([$processor]));
     }
 }

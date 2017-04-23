@@ -10,13 +10,21 @@ use PHPUnit\Framework\TestCase;
 final class PhpSessionCollectorTest extends TestCase
 {
     /**
+     * @var PhpSessionCollector
+     */
+    private $collector;
+
+    public function setUp()
+    {
+        $this->collector = new PhpSessionCollector();
+    }
+
+    /**
      * @test
      */
     public function it_is_a_processor()
     {
-        $collector = new PhpSessionCollector();
-
-        $this->assertInstanceOf(Processor::class, $collector);
+        $this->assertInstanceOf(Processor::class, $this->collector);
     }
 
     /**
@@ -28,14 +36,12 @@ final class PhpSessionCollectorTest extends TestCase
             'key' => 'value',
         ];
 
-        $collector = new PhpSessionCollector();
-
         $expected = [
             Context::SESSION => [
                 'key' => 'value',
             ],
         ];
-        $actual = $collector->process(new \Exception(), []);
+        $actual = $this->collector->process(new \Exception(), []);
 
         $this->assertEquals($expected, $actual);
     }
@@ -47,9 +53,7 @@ final class PhpSessionCollectorTest extends TestCase
     {
         $_SESSION = [];
 
-        $collector = new PhpSessionCollector();
-
-        $actual = $collector->process(new \Exception(), []);
+        $actual = $this->collector->process(new \Exception(), []);
 
         $this->assertArrayNotHasKey(Context::SESSION, $actual);
     }
@@ -64,8 +68,6 @@ final class PhpSessionCollectorTest extends TestCase
             'key2' => 'value2',
         ];
 
-        $collector = new PhpSessionCollector();
-
         $context = [
             Context::SESSION => [
                 'key' => 'value',
@@ -78,7 +80,7 @@ final class PhpSessionCollectorTest extends TestCase
                 'key2' => 'value2',
             ],
         ];
-        $actual = $collector->process(new \Exception(), $context);
+        $actual = $this->collector->process(new \Exception(), $context);
 
         $this->assertEquals($expected, $actual);
     }

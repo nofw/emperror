@@ -10,13 +10,21 @@ use PHPUnit\Framework\TestCase;
 final class EnvironmentCollectorTest extends TestCase
 {
     /**
+     * @var EnvironmentCollector
+     */
+    private $collector;
+
+    public function setUp()
+    {
+        $this->collector = new EnvironmentCollector();
+    }
+
+    /**
      * @test
      */
     public function it_is_a_processor()
     {
-        $collector = new EnvironmentCollector();
-
-        $this->assertInstanceOf(Processor::class, $collector);
+        $this->assertInstanceOf(Processor::class, $this->collector);
     }
 
     /**
@@ -28,14 +36,12 @@ final class EnvironmentCollectorTest extends TestCase
             'key' => 'value',
         ];
 
-        $collector = new EnvironmentCollector();
-
         $expected = [
             Context::ENVIRONMENT => [
                 'key' => 'value',
             ],
         ];
-        $actual = $collector->process(new \Exception(), []);
+        $actual = $this->collector->process(new \Exception(), []);
 
         $this->assertEquals($expected, $actual);
     }
@@ -50,8 +56,6 @@ final class EnvironmentCollectorTest extends TestCase
             'key2' => 'value2',
         ];
 
-        $collector = new EnvironmentCollector();
-
         $context = [
             Context::ENVIRONMENT => [
                 'key' => 'value',
@@ -64,7 +68,7 @@ final class EnvironmentCollectorTest extends TestCase
                 'key2' => 'value2',
             ],
         ];
-        $actual = $collector->process(new \Exception(), $context);
+        $actual = $this->collector->process(new \Exception(), $context);
 
         $this->assertEquals($expected, $actual);
     }
