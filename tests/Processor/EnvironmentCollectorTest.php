@@ -2,12 +2,23 @@
 
 namespace Nofw\Emperror\Tests\Processor;
 
+use Nofw\Emperror\Processor;
 use Nofw\Emperror\Processor\EnvironmentCollector;
 use Nofw\Error\Context;
 use PHPUnit\Framework\TestCase;
 
 final class EnvironmentCollectorTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function it_is_a_processor()
+    {
+        $collector = new EnvironmentCollector();
+
+        $this->assertInstanceOf(Processor::class, $collector);
+    }
+
     /**
      * @test
      */

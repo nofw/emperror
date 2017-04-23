@@ -2,6 +2,7 @@
 
 namespace Nofw\Emperror\Tests\Processor;
 
+use Nofw\Emperror\Processor;
 use Nofw\Emperror\Processor\CommonInfoCollector;
 use Nofw\Error\Context;
 use phpmock\phpunit\PHPMock;
@@ -10,6 +11,16 @@ use PHPUnit\Framework\TestCase;
 final class CommonInfoCollectorTest extends TestCase
 {
     use PHPMock;
+
+    /**
+     * @test
+     */
+    public function it_is_a_processor()
+    {
+        $collector = new CommonInfoCollector();
+
+        $this->assertInstanceOf(Processor::class, $collector);
+    }
 
     /**
      * @test
