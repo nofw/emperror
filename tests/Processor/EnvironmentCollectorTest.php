@@ -14,7 +14,7 @@ final class EnvironmentCollectorTest extends TestCase
      */
     private $collector;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->collector = new EnvironmentCollector();
     }
@@ -22,7 +22,7 @@ final class EnvironmentCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_is_a_processor()
+    public function it_is_a_processor(): void
     {
         $this->assertInstanceOf(Processor::class, $this->collector);
     }
@@ -30,7 +30,7 @@ final class EnvironmentCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_collects_environment()
+    public function it_collects_environment(): void
     {
         $_SERVER = [
             'key' => 'value',
@@ -49,7 +49,7 @@ final class EnvironmentCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_overwrite_already_existing_values()
+    public function it_does_not_overwrite_already_existing_values(): void
     {
         $_SERVER = [
             'key' => 'value',

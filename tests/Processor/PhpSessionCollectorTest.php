@@ -14,7 +14,7 @@ final class PhpSessionCollectorTest extends TestCase
      */
     private $collector;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->collector = new PhpSessionCollector();
     }
@@ -22,7 +22,7 @@ final class PhpSessionCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_is_a_processor()
+    public function it_is_a_processor(): void
     {
         $this->assertInstanceOf(Processor::class, $this->collector);
     }
@@ -30,7 +30,7 @@ final class PhpSessionCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_collects_session_info()
+    public function it_collects_session_info(): void
     {
         $_SESSION = [
             'key' => 'value',
@@ -49,7 +49,7 @@ final class PhpSessionCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_collect_session_info_if_session_is_empty()
+    public function it_does_not_collect_session_info_if_session_is_empty(): void
     {
         $_SESSION = [];
 
@@ -61,7 +61,7 @@ final class PhpSessionCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_overwrite_already_existing_values()
+    public function it_does_not_overwrite_already_existing_values(): void
     {
         $_SESSION = [
             'key' => 'value',

@@ -4,6 +4,7 @@ namespace Nofw\Emperror\Tests;
 
 use Nofw\Emperror\Processor;
 use Nofw\Emperror\ErrorHandler;
+use Nofw\Error\TestErrorHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -14,7 +15,7 @@ final class ErrorHandlerTest extends TestCase
      */
     private $errorHandler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->errorHandler = new ErrorHandler();
     }
@@ -22,7 +23,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_is_an_error_handler()
+    public function it_is_an_error_handler(): void
     {
         $this->assertInstanceOf(\Nofw\Error\ErrorHandler::class, $this->errorHandler);
     }
@@ -30,11 +31,9 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_has_a_handler_stack()
+    public function it_has_a_handler_stack(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler */
-        $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler = $handler->reveal();
+        $handler = new TestErrorHandler();
 
         $this->errorHandler->pushHandler($handler);
 
@@ -44,15 +43,10 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function its_handler_stack_is_actually_a_stack()
+    public function its_handler_stack_is_actually_a_stack(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler1 */
-        $handler1 = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler1 = $handler1->reveal();
-
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler2 */
-        $handler2 = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler2 = $handler2->reveal();
+        $handler1 = new TestErrorHandler();
+        $handler2 = new TestErrorHandler();
 
         $this->errorHandler
             ->pushHandler($handler1)
@@ -66,7 +60,7 @@ final class ErrorHandlerTest extends TestCase
      * @test
      * @expectedException \LogicException
      */
-    public function it_cannot_pop_from_an_empty_handler_stack()
+    public function it_cannot_pop_from_an_empty_handler_stack(): void
     {
         $this->errorHandler->popHandler();
     }
@@ -74,11 +68,9 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_the_handler_stack()
+    public function it_returns_the_handler_stack(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler */
-        $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler = $handler->reveal();
+        $handler = new TestErrorHandler();
 
         $this->errorHandler->pushHandler($handler);
 
@@ -88,15 +80,10 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_accepts_a_handler_stack()
+    public function it_accepts_a_handler_stack(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler1 */
-        $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler1 = $handler->reveal();
-
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler2 */
-        $handler2 = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler2 = $handler2->reveal();
+        $handler1 = new TestErrorHandler();
+        $handler2 = new TestErrorHandler();
 
         $this->errorHandler->pushHandler($handler1);
 
@@ -108,11 +95,9 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_exposes_a_fluent_interface_when_pushing_handlers()
+    public function it_exposes_a_fluent_interface_when_pushing_handlers(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler */
-        $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler = $handler->reveal();
+        $handler = new TestErrorHandler();
 
         $this->assertSame($this->errorHandler, $this->errorHandler->pushHandler($handler));
     }
@@ -120,11 +105,9 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_exposes_a_fluent_interface_when_setting_handlers()
+    public function it_exposes_a_fluent_interface_when_setting_handlers(): void
     {
-        /** @var \Nofw\Error\ErrorHandler|ObjectProphecy $handler */
-        $handler = $this->prophesize(\Nofw\Error\ErrorHandler::class);
-        $handler = $handler->reveal();
+        $handler = new TestErrorHandler();
 
         $this->errorHandler->pushHandler($handler);
 
@@ -134,7 +117,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_has_a_processor_stack()
+    public function it_has_a_processor_stack(): void
     {
         /** @var Processor|ObjectProphecy $processor */
         $processor = $this->prophesize(Processor::class);
@@ -148,7 +131,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function its_processor_stack_is_actually_a_stack()
+    public function its_processor_stack_is_actually_a_stack(): void
     {
         /** @var Processor|ObjectProphecy $processor1 */
         $processor1 = $this->prophesize(Processor::class);
@@ -170,7 +153,7 @@ final class ErrorHandlerTest extends TestCase
      * @test
      * @expectedException \LogicException
      */
-    public function it_cannot_pop_from_an_empty_processor_stack()
+    public function it_cannot_pop_from_an_empty_processor_stack(): void
     {
         $this->errorHandler->popProcessor();
     }
@@ -178,7 +161,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_the_processor_stack()
+    public function it_returns_the_processor_stack(): void
     {
         /** @var Processor|ObjectProphecy $processor */
         $processor = $this->prophesize(Processor::class);
@@ -192,7 +175,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_accepts_a_processor_stack()
+    public function it_accepts_a_processor_stack(): void
     {
         /** @var Processor|ObjectProphecy $processor1 */
         $processor1 = $this->prophesize(Processor::class);
@@ -212,7 +195,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_exposes_a_fluent_interface_when_pushing_processors()
+    public function it_exposes_a_fluent_interface_when_pushing_processors(): void
     {
         /** @var Processor|ObjectProphecy $processor */
         $processor = $this->prophesize(Processor::class);
@@ -224,7 +207,7 @@ final class ErrorHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_exposes_a_fluent_interface_when_setting_processors()
+    public function it_exposes_a_fluent_interface_when_setting_processors(): void
     {
         /** @var Processor|ObjectProphecy $processor */
         $processor = $this->prophesize(Processor::class);

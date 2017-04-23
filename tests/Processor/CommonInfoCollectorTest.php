@@ -17,7 +17,7 @@ final class CommonInfoCollectorTest extends TestCase
      */
     private $collector;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->collector = new CommonInfoCollector();
     }
@@ -25,7 +25,7 @@ final class CommonInfoCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_is_a_processor()
+    public function it_is_a_processor(): void
     {
         $this->assertInstanceOf(Processor::class, $this->collector);
     }
@@ -33,7 +33,7 @@ final class CommonInfoCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_collects_common_info()
+    public function it_collects_common_info(): void
     {
         $namespace = substr(CommonInfoCollector::class, 0, strrpos(CommonInfoCollector::class, '\\'));
 
@@ -61,7 +61,7 @@ final class CommonInfoCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_include_hostname_if_cannot_be_determined()
+    public function it_does_not_include_hostname_if_cannot_be_determined(): void
     {
         $namespace = substr(CommonInfoCollector::class, 0, strrpos(CommonInfoCollector::class, '\\'));
 
@@ -76,7 +76,7 @@ final class CommonInfoCollectorTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_overwrite_already_existing_values()
+    public function it_does_not_overwrite_already_existing_values(): void
     {
         $expected = [
             Context::APP => [
