@@ -1,8 +1,8 @@
 <?php
 
-namespace Nofw\Emperror\Tests\Context;
+namespace Nofw\Emperror\Tests\Processor;
 
-use Nofw\Emperror\Context\CommonInfoCollector;
+use Nofw\Emperror\Processor\CommonInfoCollector;
 use Nofw\Error\Context;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;

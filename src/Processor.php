@@ -1,9 +1,9 @@
 <?php
 
-namespace Nofw\Emperror\Context;
+namespace Nofw\Emperror;
 
 /**
- * Context processor collects context from various sources and filters it.
+ * Processor processor collects context from various sources and filters it.
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */

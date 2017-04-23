@@ -2,8 +2,6 @@
 
 namespace Nofw\Emperror;
 
-use Nofw\Emperror\Context\Processor;
-
 /**
  * Error handler.
  *

@@ -2,7 +2,7 @@
 
 namespace Nofw\Emperror\Tests;
 
-use Nofw\Emperror\Context\Processor;
+use Nofw\Emperror\Processor;
 use Nofw\Emperror\ErrorHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;

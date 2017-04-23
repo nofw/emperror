@@ -1,8 +1,8 @@
 <?php
 
-namespace Nofw\Emperror\Tests\Context;
+namespace Nofw\Emperror\Tests\Processor;
 
-use Nofw\Emperror\Context\PhpSessionCollector;
+use Nofw\Emperror\Processor\PhpSessionCollector;
 use Nofw\Error\Context;
 use PHPUnit\Framework\TestCase;
 

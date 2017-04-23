@@ -1,7 +1,8 @@
 <?php
 
-namespace Nofw\Emperror\Context;
+namespace Nofw\Emperror\Processor;
 
+use Nofw\Emperror\Processor;
 use Nofw\Error\Context;
 
 /**
