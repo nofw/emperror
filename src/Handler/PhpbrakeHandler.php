@@ -96,7 +96,7 @@ final class PhpbrakeHandler implements \Nofw\Error\ErrorHandler
             $func = $frame['function'];
 
             if (isset($frame['class']) && isset($frame['type'])) {
-                $func = $frame['class'] . $frame['type'] . $func;
+                $func = $frame['class'].$frame['type'].$func;
             }
 
             if (count($backtrace) > 0) {
