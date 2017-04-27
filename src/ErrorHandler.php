@@ -9,6 +9,9 @@ namespace Nofw\Emperror;
  */
 final class ErrorHandler implements \Nofw\Error\ErrorHandler
 {
+    /**
+     * Default context values.
+     */
     private $context = [];
 
     /**
